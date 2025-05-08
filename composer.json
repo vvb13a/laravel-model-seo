@@ -1,24 +1,25 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "vvb13a/laravel-model-seo",
+    "description": "A Laravel package to add seo capabilities to eloquent models.",
     "keywords": [
-        ":vendor_name",
+        "vvb13a",
         "laravel",
-        ":package_slug"
+        "laravel-model-seo"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/vvb13a/laravel-model-seo",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "vvb13a",
+            "email": "vvb@wiot-tomorrow.com",
             "role": "Developer"
         }
     ],
     "require": {
         "php": "^8.4",
+        "illuminate/contracts": "^10.0||^11.0||^12.0",
         "spatie/laravel-package-tools": "^1.16",
-        "illuminate/contracts": "^10.0||^11.0||^12.0"
+        "spatie/schema-org": "^3.23"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
@@ -30,18 +31,17 @@
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/extension-installer": "^1.3||^2.0",
         "phpstan/phpstan-deprecation-rules": "^1.1||^2.0",
-        "phpstan/phpstan-phpunit": "^1.3||^2.0",
-        "spatie/laravel-ray": "^1.35"
+        "phpstan/phpstan-phpunit": "^1.3||^2.0"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Vvb13a\\LaravelModelSeo\\": "src/",
+            "Vvb13a\\LaravelModelSeo\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Vvb13a\\LaravelModelSeo\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Vvb13a\\LaravelModelSeo\\LaravelModelSeoServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelModelSeo": "Vvb13a\\LaravelModelSeo\\Facades\\LaravelModelSeo"
             }
         }
     },
