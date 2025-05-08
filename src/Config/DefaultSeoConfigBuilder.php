@@ -45,9 +45,9 @@ class DefaultSeoConfigBuilder
 
         $schemaTypeClass = $globalSchemaDefaults['default_type'] ?? DefaultSchemaOrgWebPage::class;
         if (class_exists($schemaTypeClass) && is_subclass_of($schemaTypeClass, SchemaOrgBaseType::class)) {
-            $config->schemaType(new $schemaTypeClass());
+            $config->schemaType(new $schemaTypeClass);
         } else {
-            $config->schemaType(new DefaultSchemaOrgWebPage());
+            $config->schemaType(new DefaultSchemaOrgWebPage);
         }
         $config->schemaProperties([]);
 

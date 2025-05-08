@@ -15,12 +15,12 @@ class SeoConfig
 {
     use ManagesCoreSeoFallbacks;
     use ManagesOpenGraphFallbacks;
-    use ManagesTwitterCardFallbacks;
     use ManagesSchemaOrgResolvers;
+    use ManagesTwitterCardFallbacks;
 
     public static function make(): self
     {
-        return new static();
+        return new static;
     }
 
     /**
@@ -34,7 +34,7 @@ class SeoConfig
     public function resolve(string $property, Model $model, ...$args)
     {
         // This check is important because traits add properties dynamically
-        if (!property_exists($this, $property) || $this->{$property} === null) {
+        if (! property_exists($this, $property) || $this->{$property} === null) {
             return null;
         }
 
@@ -57,12 +57,14 @@ class SeoConfig
 
         if ($resolver instanceof Closure) {
             $resolved = call_user_func($resolver, $model);
+
             return ($resolved instanceof BaseType) ? $resolved : null;
         }
 
         if ($resolver instanceof BaseType) {
             return $resolver;
         }
+
         return null;
     }
 
@@ -70,8 +72,10 @@ class SeoConfig
     {
         if ($this->schemaPropertiesResolver instanceof Closure) {
             $resolved = call_user_func_array($this->schemaPropertiesResolver, [$model, $seoHandler]);
+
             return is_array($resolved) ? $resolved : null;
         }
+
         return null;
     }
 }

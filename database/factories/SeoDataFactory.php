@@ -17,7 +17,7 @@ class SeoDataFactory extends Factory
             'keywords' => implode(', ', $this->faker->words(rand(3, 7))),
             'canonical_url' => $this->faker->unique()->url(),
             'robots' => $this->faker->randomElement([
-                'index,follow', 'noindex,nofollow', 'noindex,follow', 'index,nofollow', null
+                'index,follow', 'noindex,nofollow', 'noindex,follow', 'index,nofollow', null,
             ]),
         ];
     }

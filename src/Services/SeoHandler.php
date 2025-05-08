@@ -18,8 +18,11 @@ use Vvb13a\LaravelModelSeo\Models\SeoData;
 class SeoHandler
 {
     protected Model $model;
+
     protected ?SeoData $seoDataRecord;
+
     protected SeoConfig $modelSeoConfig;
+
     protected array $globalPackageConfig;
 
     public function __construct(Model $model, ?SeoData $seoDataRecord)
@@ -121,7 +124,7 @@ class SeoHandler
     {
         $title = trim($title ?? '');
         $siteName = $this->getDefaultSiteName();
-        $separator = " ".trim($this->globalPackageConfig['title_separator'] ?? '|')." ";
+        $separator = ' '.trim($this->globalPackageConfig['title_separator'] ?? '|').' ';
 
         if (empty($title)) {
             return $siteName;
@@ -134,6 +137,7 @@ class SeoHandler
         }
 
         $maxLength = $this->globalPackageConfig['max_title_length'] ?? 60;
+
         return Str::limit($title, $maxLength, '');
     }
 
@@ -165,6 +169,7 @@ class SeoHandler
         }
 
         $maxLength = $this->globalPackageConfig['max_description_length'] ?? 160;
+
         return Str::limit($description, $maxLength);
     }
 
@@ -193,7 +198,7 @@ class SeoHandler
 
     public function getJsonLdScript(): ?HtmlString
     {
-        if (!class_exists(SchemaOrgBuilder::class)) {
+        if (! class_exists(SchemaOrgBuilder::class)) {
             return null;
         }
 
@@ -201,11 +206,11 @@ class SeoHandler
             /** @var SchemaOrgBaseType|null $schemaTypeInstance */
             $schemaTypeInstance = $this->modelSeoConfig->resolveSchemaType($this->model);
 
-            if (!$schemaTypeInstance) {
+            if (! $schemaTypeInstance) {
                 $defaultSchemaClass = $this->globalPackageConfig['schema_org']['default_type'] ?? WebPage::class;
                 if (class_exists($defaultSchemaClass) && is_subclass_of($defaultSchemaClass,
-                        SchemaOrgBaseType::class)) {
-                    $schemaTypeInstance = new $defaultSchemaClass();
+                    SchemaOrgBaseType::class)) {
+                    $schemaTypeInstance = new $defaultSchemaClass;
                 } else {
                     return null;
                 }
@@ -223,10 +228,12 @@ class SeoHandler
                     }
                 }
             }
+
             return $schemaTypeInstance->toScript();
 
         } catch (Exception $e) {
             report($e);
+
             return null;
         }
     }
@@ -262,11 +269,11 @@ class SeoHandler
         // Date Published & Modified (if model has timestamps and schema type supports it)
         if ($this->model->usesTimestamps()) {
             if (method_exists($schema,
-                    'datePublished') && empty($schema->getProperty('datePublished')) && $this->model->created_at) {
+                'datePublished') && empty($schema->getProperty('datePublished')) && $this->model->created_at) {
                 $schema->datePublished($this->model->created_at);
             }
             if (method_exists($schema,
-                    'dateModified') && empty($schema->getProperty('dateModified')) && $this->model->updated_at) {
+                'dateModified') && empty($schema->getProperty('dateModified')) && $this->model->updated_at) {
                 $schema->dateModified($this->model->updated_at);
             }
         }
@@ -289,6 +296,7 @@ class SeoHandler
         if (request()->route() && $this->isModelOnCurrentRoute()) {
             return request()->url();
         }
+
         return null;
     }
 
@@ -299,7 +307,7 @@ class SeoHandler
     protected function isModelOnCurrentRoute(): bool
     {
         $route = request()->route();
-        if (!$route) {
+        if (! $route) {
             return false;
         }
 
@@ -320,12 +328,14 @@ class SeoHandler
         if (isset($routeParameters[$conventionalParamName]) && $routeParameters[$conventionalParamName] == $this->model->{$routeKeyName}) {
             return true;
         }
+
         return false;
     }
 
     public function renderMetaTags(): HtmlString
     {
         $viewName = $this->globalPackageConfig['views']['meta_tags'] ?? 'model-seo::meta_tags';
+
         return new HtmlString(
             View::make($viewName)
                 ->with('seo', $this)

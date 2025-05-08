@@ -8,8 +8,6 @@ interface SeoSettingsDefiner
 {
     /**
      * Define and return the SEO configuration for a model.
-     *
-     * @return SeoConfig
      */
     public function define(): SeoConfig;
 }

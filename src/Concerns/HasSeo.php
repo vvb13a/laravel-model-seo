@@ -17,7 +17,7 @@ trait HasSeo
     public static function bootHasSeo(): void
     {
         static::deleted(function (Model $model) {
-            if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
+            if (method_exists($model, 'isForceDeleting') && ! $model->isForceDeleting()) {
                 return;
             }
             $model->seoDataRelation()->delete();
@@ -45,11 +45,11 @@ trait HasSeo
             $className = static::$seoSettingsClass;
             $modelClass = static::class;
 
-            if (!class_exists($className)) {
+            if (! class_exists($className)) {
                 throw ConfigurationErrorException::seoSettingsClassNotFound($modelClass, $className);
             }
 
-            if (!is_subclass_of($className, SeoSettingsDefiner::class)) {
+            if (! is_subclass_of($className, SeoSettingsDefiner::class)) {
                 throw ConfigurationErrorException::seoSettingsClassInvalidInterface(
                     $modelClass,
                     $className,
@@ -60,7 +60,7 @@ trait HasSeo
             $settingsInstance = app($className);
             $config = $settingsInstance->define();
 
-            if (!$config instanceof SeoConfig) {
+            if (! $config instanceof SeoConfig) {
                 throw ConfigurationErrorException::seoSettingsClassDefineMethodInvalidReturn(
                     $className,
                     $modelClass
@@ -75,12 +75,13 @@ trait HasSeo
 
     public function getSeoAttribute(): SeoHandler
     {
-        if (!isset($this->seoHandlerInstance)) {
+        if (! isset($this->seoHandlerInstance)) {
             $this->seoHandlerInstance = app(SeoHandler::class, [
                 'model' => $this,
-                'seoData' => $this->seoDataRelation
+                'seoData' => $this->seoDataRelation,
             ]);
         }
+
         return $this->seoHandlerInstance;
     }
 
@@ -100,9 +101,10 @@ trait HasSeo
     {
         $seoData = $this->seoDataRelation()->firstOrNew([]);
 
-        if (!empty($attributes)) {
+        if (! empty($attributes)) {
             $seoData->fill($attributes);
         }
+
         return $seoData;
     }
 }
