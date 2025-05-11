@@ -13,6 +13,7 @@ trait ManagesSchema
     public function schema(Graph|BaseType|Closure $schema): self
     {
         $this->schema = $schema;
+
         return $this;
     }
 

@@ -17,16 +17,14 @@ use Vvb13a\LaravelModelSeo\Services\Traits\ManagesTwitter;
 
 class Seo implements Htmlable
 {
-    use ManagesCoreTags;
-    use ManagesOpenGraph;
-    use ManagesTwitter;
-    use ManagesHreflang;
-    use ManagesSchema;
     use HandlesClosureEvaluation;
+    use ManagesCoreTags;
+    use ManagesHreflang;
+    use ManagesOpenGraph;
+    use ManagesSchema;
+    use ManagesTwitter;
 
-    public function __construct(protected Model $record)
-    {
-    }
+    public function __construct(protected Model $record) {}
 
     public static function make(Model $record): self
     {

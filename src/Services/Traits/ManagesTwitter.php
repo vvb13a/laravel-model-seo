@@ -12,6 +12,7 @@ trait ManagesTwitter
     public function twitter($twitter): self
     {
         $this->twitter = $twitter;
+
         return $this;
     }
 
