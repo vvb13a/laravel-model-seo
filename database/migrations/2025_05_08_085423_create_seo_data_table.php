@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Vvb13a\LaravelModelSeo\Enums\RobotsDirective;
 
 return new class extends Migration {
     public function up()
@@ -15,7 +16,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->string('keywords')->nullable();
             $table->string('canonical_url')->nullable();
-            $table->string('robots')->nullable()->default('index,follow');
+            $table->string('robots')->nullable()->default(RobotsDirective::default()->value);
 
             $table->timestamps();
             $table->unique(['seoable_type', 'seoable_id']);

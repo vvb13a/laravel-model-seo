@@ -11,7 +11,6 @@ class LaravelModelSeoServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('laravel-model-seo')
-            ->hasConfigFile()
             ->hasViews()
             ->discoversMigrations()
             ->runsMigrations();
