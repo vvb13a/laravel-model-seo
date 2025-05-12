@@ -57,14 +57,14 @@ class SeoData extends Model
     protected function canonicalUrl(): Attribute
     {
         return Attribute::make(
-            fn($value) => $this->sanitizeStringAttribute($value),
+            fn ($value) => $this->sanitizeStringAttribute($value),
         );
     }
 
     protected function robots(): Attribute
     {
         return Attribute::make(
-            fn($value) => $this->sanitizeStringAttribute($value),
+            fn ($value) => $this->sanitizeStringAttribute($value),
         );
     }
 }
