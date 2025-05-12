@@ -12,6 +12,7 @@ trait ManagesHreflang
     public function hreflang(Hreflang|Closure|null $hreflang): self
     {
         $this->hreflang = $hreflang;
+
         return $this;
     }
 

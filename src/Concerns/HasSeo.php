@@ -12,15 +12,15 @@ trait HasSeo
 {
     protected ?Seo $seoInstance = null;
 
-//    public static function bootHasSeo(): void
-//    {
-//        static::deleted(function (Model $model) {
-//            if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
-//                return;
-//            }
-//            $model->seoData()->delete();
-//        });
-//    }
+    //    public static function bootHasSeo(): void
+    //    {
+    //        static::deleted(function (Model $model) {
+    //            if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
+    //                return;
+    //            }
+    //            $model->seoData()->delete();
+    //        });
+    //    }
 
     public function getSeoTestAttribute(): Seo
     {
@@ -29,6 +29,7 @@ trait HasSeo
             $this->applySeoConfiguration($seo);
             $this->seoInstance = $seo;
         }
+
         return $this->seoInstance;
     }
 
@@ -38,11 +39,11 @@ trait HasSeo
             $className = static::$seoConfigurator;
             $modelClass = static::class;
 
-            if (!class_exists($className)) {
+            if (! class_exists($className)) {
                 throw ConfigurationErrorException::seoSettingsClassNotFound($modelClass, $className);
             }
 
-            if (!is_subclass_of($className, SeoConfigurator::class)) {
+            if (! is_subclass_of($className, SeoConfigurator::class)) {
                 throw ConfigurationErrorException::seoSettingsClassInvalidInterface(
                     $modelClass,
                     $className,
@@ -62,7 +63,6 @@ trait HasSeo
      * If not overridden, the Seo Service will apply its defaults internally.
      *
      * @param  Seo  $seo  The seo instance to configure.
-     * @return void
      */
     public static function configureSeo(Seo $seo): void
     {
@@ -85,9 +85,10 @@ trait HasSeo
     {
         $seoData = $this->seoData()->firstOrNew([]);
 
-        if (!empty($attributes)) {
+        if (! empty($attributes)) {
             $seoData->fill($attributes);
         }
+
         return $seoData;
     }
 

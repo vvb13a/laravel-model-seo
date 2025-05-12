@@ -11,7 +11,7 @@ trait HandlesClosureEvaluation
 {
     protected function evaluate($value)
     {
-        if (!$value instanceof Closure) {
+        if (! $value instanceof Closure) {
             return $value;
         }
 

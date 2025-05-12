@@ -12,6 +12,7 @@ trait ManagesOpenGraph
     public function openGraph(Type|Closure $openGraph): self
     {
         $this->openGraph = $openGraph;
+
         return $this;
     }
 

@@ -26,7 +26,7 @@ class SeoData extends Model
     protected function title(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->sanitizeStringAttribute($value),
+            get: fn ($value) => $this->sanitizeStringAttribute($value),
         );
     }
 
@@ -36,20 +36,21 @@ class SeoData extends Model
             return null;
         }
         $trimmedValue = trim($value);
+
         return $trimmedValue === '' ? null : $trimmedValue;
     }
 
     protected function description(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->sanitizeStringAttribute($value),
+            get: fn ($value) => $this->sanitizeStringAttribute($value),
         );
     }
 
     protected function keywords(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->sanitizeStringAttribute($value),
+            get: fn ($value) => $this->sanitizeStringAttribute($value),
         );
     }
 

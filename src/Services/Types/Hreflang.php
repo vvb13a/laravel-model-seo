@@ -10,7 +10,7 @@ class Hreflang
 
     public static function make(): self
     {
-        return new static();
+        return new static;
     }
 
     public function add(string $hreflang, string $href): self
@@ -19,6 +19,7 @@ class Hreflang
             'hreflang' => strtolower(trim($hreflang)),
             'href' => trim($href),
         ];
+
         return $this;
     }
 

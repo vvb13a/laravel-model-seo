@@ -12,7 +12,6 @@ interface SeoConfigurator
      * If not overridden, the Seo Service will apply its defaults internally.
      *
      * @param  Seo  $seo  The seo instance to configure.
-     * @return void
      */
     public static function configureSeo(Seo $seo): void;
 }

@@ -14,6 +14,7 @@ trait CanFormatTitleAndDescription
         }
 
         $maxLength = $this->globalPackageConfig['max_description_length'] ?? null;
+
         return $maxLength ? Str::limit($description, $maxLength) : $description;
     }
 
@@ -21,7 +22,7 @@ trait CanFormatTitleAndDescription
     {
         $title = trim($title ?? '');
         $siteName = $this->globalPackageConfig['site_name'] ?? config('app.name');
-        $separator = " ".trim($this->globalPackageConfig['title_separator'] ?? '|')." ";
+        $separator = ' '.trim($this->globalPackageConfig['title_separator'] ?? '|').' ';
 
         if (empty($title)) {
             return $siteName;
@@ -34,6 +35,7 @@ trait CanFormatTitleAndDescription
         }
 
         $maxLength = $this->globalPackageConfig['max_title_length'] ?? null;
+
         return $maxLength ? Str::limit($title, $maxLength, '') : $title;
     }
 }
