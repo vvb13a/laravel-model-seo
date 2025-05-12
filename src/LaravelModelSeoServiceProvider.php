@@ -12,7 +12,6 @@ class LaravelModelSeoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-model-seo')
             ->hasViews()
-            ->discoversMigrations()
-            ->runsMigrations();
+            ->hasMigration('create_seo_data_table');
     }
 }
