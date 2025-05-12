@@ -5,7 +5,6 @@ namespace Vvb13a\LaravelModelSeo\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Vvb13a\LaravelModelSeo\Enums\RobotsDirective;
 
 class SeoData extends Model
 {
@@ -22,13 +21,6 @@ class SeoData extends Model
     public function seoable(): MorphTo
     {
         return $this->morphTo();
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'robots' => RobotsDirective::class,
-        ];
     }
 
     protected function title(): Attribute
@@ -64,9 +56,14 @@ class SeoData extends Model
     protected function canonicalUrl(): Attribute
     {
         return Attribute::make(
-            get: function ($value) {
-                return $this->sanitizeStringAttribute($value);
-            }
+            fn($value) => $this->sanitizeStringAttribute($value),
+        );
+    }
+
+    protected function robots(): Attribute
+    {
+        return Attribute::make(
+            fn($value) => $this->sanitizeStringAttribute($value),
         );
     }
 }
