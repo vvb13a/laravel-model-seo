@@ -2,6 +2,7 @@
 
 namespace Vvb13a\LaravelModelSeo;
 
+use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -12,6 +13,10 @@ class LaravelModelSeoServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-model-seo')
             ->hasViews()
-            ->hasMigration('create_seo_data_table');
+            ->hasMigration('create_seo_data_table')
+            ->hasInstallCommand(function (InstallCommand $command) {
+                $command
+                    ->publishMigrations();
+            });
     }
 }
