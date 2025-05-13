@@ -2,6 +2,7 @@
 
 namespace Vvb13a\LaravelModelSeo\Concerns;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Vvb13a\LaravelModelSeo\Contracts\SeoConfigurator;
 use Vvb13a\LaravelModelSeo\Exceptions\ConfigurationErrorException;
@@ -12,17 +13,22 @@ trait HasSeo
 {
     protected ?Seo $seoInstance = null;
 
-    //    public static function bootHasSeo(): void
-    //    {
-    //        static::deleted(function (Model $model) {
-    //            if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
-    //                return;
-    //            }
-    //            $model->seoData()->delete();
-    //        });
-    //    }
+    public static function bootHasSeo(): void
+    {
+        static::deleted(function (Model $model) {
+            if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
+                return;
+            }
+            $model->seoData()->delete();
+        });
+    }
 
-    public function getSeoTestAttribute(): Seo
+    public function seoData(): MorphOne
+    {
+        return $this->morphOne(SeoData::class, 'seoable');
+    }
+
+    public function getSeoAttribute(): Seo
     {
         if ($this->seoInstance === null) {
             $seo = Seo::make($this);
@@ -39,11 +45,11 @@ trait HasSeo
             $className = static::$seoConfigurator;
             $modelClass = static::class;
 
-            if (! class_exists($className)) {
+            if (!class_exists($className)) {
                 throw ConfigurationErrorException::seoSettingsClassNotFound($modelClass, $className);
             }
 
-            if (! is_subclass_of($className, SeoConfigurator::class)) {
+            if (!is_subclass_of($className, SeoConfigurator::class)) {
                 throw ConfigurationErrorException::seoSettingsClassInvalidInterface(
                     $modelClass,
                     $className,
@@ -85,15 +91,10 @@ trait HasSeo
     {
         $seoData = $this->seoData()->firstOrNew([]);
 
-        if (! empty($attributes)) {
+        if (!empty($attributes)) {
             $seoData->fill($attributes);
         }
 
         return $seoData;
-    }
-
-    public function seoData(): MorphOne
-    {
-        return $this->morphOne(SeoData::class, 'seoable');
     }
 }
