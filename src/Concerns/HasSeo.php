@@ -97,4 +97,15 @@ trait HasSeo
 
         return $seoData;
     }
+
+    public function scopeWithSeoDescription($query): void
+    {
+        $query->addSelect([
+            'seo_data__description' => SeoData::query()
+                ->select('description')
+                ->whereColumn('seo_data.seoable_id', $this->getTable().'.id')
+                ->where('seo_data.seoable_type', $this->getMorphClass())
+                ->take(1)
+        ]);
+    }
 }
