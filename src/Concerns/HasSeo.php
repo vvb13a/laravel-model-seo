@@ -15,6 +15,12 @@ trait HasSeo
 
     public static function bootHasSeo(): void
     {
+        static::created(function (Model $model) {
+            if (!$model->seoData()->exists()) {
+                $model->seoData()->create();
+            }
+        });
+
         static::deleted(function (Model $model) {
             if (method_exists($model, 'isForceDeleting') && !$model->isForceDeleting()) {
                 return;
@@ -77,9 +83,14 @@ trait HasSeo
 
     public function updateSeo(array $data): SeoData
     {
-        $seoData = $this->getOrCreateSeoData();
-        $seoData->fill($data);
-        $seoData->save();
+        $seoData = $this->seoData()->firstOrCreate(
+            [],
+            $data
+        );
+
+        if (!$seoData->wasRecentlyCreated && !empty($data)) {
+            $seoData->fill($data)->save();
+        }
 
         $this->load('seoData');
         $this->seoInstance = null;
@@ -89,13 +100,7 @@ trait HasSeo
 
     public function getOrCreateSeoData(array $attributes = []): SeoData
     {
-        $seoData = $this->seoData()->firstOrNew([]);
-
-        if (!empty($attributes)) {
-            $seoData->fill($attributes);
-        }
-
-        return $seoData;
+        return $this->seoData()->firstOrCreate([], $attributes);
     }
 
     public function scopeWithSeoDescription($query): void
@@ -103,7 +108,7 @@ trait HasSeo
         $query->addSelect([
             'seo_data__description' => SeoData::query()
                 ->select('description')
-                ->whereColumn('seo_data.seoable_id', $this->getTable().'.id')
+                ->whereColumn('seo_data.seoable_id', $this->getTable().'.'.$this->getKeyName())
                 ->where('seo_data.seoable_type', $this->getMorphClass())
                 ->take(1)
         ]);
